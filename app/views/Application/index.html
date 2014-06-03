@@ -1,0 +1,37 @@
+#{extends 'main.html' /}
+#{set title:'Index' /}
+#{form @Data.searchResults(), id:'search'}
+<div class="hero-unit">
+    <!--<h1>massageToday</h1>-->
+    <div class="control-group" align="center">
+        <img src="/public/images/massagetoday.png"/>
+        <!--<div class="controls">
+            <input type="search" name="name" class="input-medium search-query" placeholder="Search by Name -">
+            <span class="error"></span>
+        </div>
+        <div class="controls">
+            <label class="control-label">Start Time</label>
+            <input type="time" name="startTime"  class="input-medium search-query" placeholder="">
+            <label class="control-label">End Time</label>
+            <input type="time" name="endTime"  class="input-medium search-query" placeholder="">
+
+            <span class="error"></span>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-info btn-large" id="findByName">Find Your Therapist</button>
+        </div>
+        <h3>Or</h3>-->
+        <div class="controls">
+            <label class="control-label">Search by your zip</label>
+            <input type="text" name="zip" id="zip" class="input-small search-query" placeholder="">
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-info btn-large" id="findNew">Find Someone New!</button>
+       </div>
+
+    </div>
+
+    <br><br>
+</div>
+#{/form}
+<script src="/public/javascripts/massagetoday-geocode.js"></script>

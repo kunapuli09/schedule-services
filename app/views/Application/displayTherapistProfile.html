@@ -1,0 +1,82 @@
+#{extends 'main.html' /}
+#{set title:'Update Therapist Profile' /}
+#{form @Data.updateTherapist()}
+<input type="hidden" name="email" value="${session?.user}">
+<input type="hidden" name="userId" value="${session?.userId}">
+<form class="form-horizontal">
+    <fieldset class="control-group success">
+        <legend>Update Therapist Profile</legend>
+        <div class="control-group">
+            #{if profile == null || profile.photo == null}
+            <label class="control-label" >Photo</label>
+            <input type="hidden" name="profile.photo" id="photo" value="${profile?.photo}">
+            <input data-fp-button-class="btn btn-primary" type="filepicker-dragdrop" name="photo" data-fp-multiple="false" onchange="loadUrl(event.fpfile.url)"/>
+            #{/if}
+            #{else}
+            <ul class="thumbnails">
+                <li class="span2">
+                    <a id="thumbLink" href="${profile?.photo}" class="thumbnail">
+                        <img id="thumbPhoto"src="${profile?.photo}" alt="your picture not available" width="260" height="180" />
+                    </a>
+                </li>
+            </ul>
+            #{/else}
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="licence">Licence</label>
+
+            <div class="controls">
+                <input type="text" class="input-xlarge" name="profile.licence" id="licence" value="${profile?.licence}">
+                #{if errors.forKey('profile.licence')}
+                <span class="alert alert-error">${errors.forKey('profile.licence')}</span>
+                #{/if}
+            </div>
+
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="insurance">Insurance</label>
+
+            <div class="controls">
+                <input type="text" class="input-xlarge" id="insurance" name="profile.insurance" value="${profile?.insurance}">
+                #{if errors.forKey('profile.insurance')}
+                <span class="alert alert-error">${errors.forKey('profile.insurance')}</span>
+                #{/if}
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="phone">Phone</label>
+
+            <div class="controls">
+                <input type="phone" class="input-xlarge" id="phone" name="profile.phone"
+                       value="${profile?.phone}">
+                #{if errors.forKey('profile.phone')}
+                <span class="alert alert-error">${errors.forKey('profile.phone')}</span>
+                #{/if}
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="bio">Bio</label>
+
+            <div class="controls">
+                <textarea name="profile.bio" id="bio" class="input-xlarge">${profile?.bio}</textarea>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-info" id="updateTherapist">Save</button>
+            <a href="@{Application.index()}" class="btn">Cancel</a>
+        </div>
+    </fieldset>
+</form>
+#{/form}
+
+<script type="text/javascript">
+    (function(a){
+    if(window.filepicker){return}var b=a.createElement("script");b.type="text/javascript";b.async=!0;b.src=("https:"===a.location.protocol?"https:":"http:")+"//api.filepicker.io/v1/filepicker.js";var c=a.getElementsByTagName("script")[0];c.parentNode.insertBefore(b,c);var d={};d._queue=[];var e="pick,pickMultiple,pickAndStore,read,write,writeUrl,export,convert,store,storeUrl,remove,stat,setKey,constructWidget,makeDropPane".split(",");var f=function(a,b){return function(){b.push([a,arguments])}};for(var g=0;g<e.length;g++){d[e[g]]=f(e[g],d._queue)}window.filepicker=d})(document);
+    filepicker.setKey("AAI1OgUPsSyidzeRvUqwqz");
+</script>
+<script>
+   function loadUrl(url){
+    document.getElementById("photo").value = url;
+    }
+</script>

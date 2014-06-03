@@ -1,0 +1,11 @@
+# Users
+
+models.User(luke):
+    name:       Luke Kothapall
+    email:      luke.giltner@gmail.com
+    password:   foobar
+
+models.User(krishna):
+    name:   Krishna Kunapuli
+    email:  kunapuli09@gmail.com
+    password:   password1

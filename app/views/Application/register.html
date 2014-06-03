@@ -1,0 +1,88 @@
+#{extends 'main.html' /}
+#{set title:'Register' /}
+#{form @save()}
+<input type="hidden" name="email" value="${session?.user}">
+<form class="form-horizontal">
+    <fieldset class="control-group success">
+        <legend>Register</legend>
+        #{if session.user == null}
+        <!--<legend>Already have a facebook account? <a href="@{auth()}"><img alt="Fb-join" src="/public/images/fb-connect.png"></a>
+        </legend>-->
+        <legend>Already have a facebook account?  <div id="loginDiv"><fb:login-button show-faces="false" width="200" max-rows="1"></fb:login-button> </div>
+            <div id="logoutDiv"></div>
+        </legend>
+        <legend>Already have a massageToday account? <a class="btn btn-large btn-info" href="@{Application.displayLogin()}">
+            Login</a></legend>
+
+        #{/if}
+
+        <div class="control-group">
+            <label class="control-label" for="name">Name</label>
+
+            <div class="controls">
+                <input type="text" class="input-xlarge" name="user.name" id="name" value="${user?.name}">
+                #{if errors.forKey('user.name')}
+                <span class="alert alert-error">${errors.forKey('user.name')}</span>
+                #{/if}
+            </div>
+
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="email">Email</label>
+
+            <div class="controls">
+                <input type="text" class="input-xlarge" id="email" name="user.email" value="${user?.email}">
+                #{if errors.forKey('user.email')}
+                <span class="alert alert-error">${errors.forKey('user.email')}</span>
+                #{/if}
+
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="confirmEmail">Confirm Email</label>
+
+            <div class="controls">
+                <input type="text" class="input-xlarge" id="confirmEmail" name="user.confirmEmail"
+                       value="${user?.confirmEmail}">
+                #{if errors.forKey('user.confirmEmail')}
+                <span class="alert alert-error">${errors.forKey('user.confirmEmail')}</span>
+                #{/if}
+
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="password">Password</label>
+
+            <div class="controls">
+                <input type="password" class="input-xlarge" id="password" name="user.password"
+                       value="${user?.password}">
+                #{if errors.forKey('user.password')}
+                <span class="alert alert-error">${errors.forKey('user.password')}</span>
+                #{/if}
+
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="role">Are you a massage therapist?</label>
+
+            <div class="controls">
+                <input type="radio" name="user.role" value="THERAPIST" ${user?.role ? 'checked' : ''}> Yes
+                <input type="radio" name="user.role" value="GUEST" ${user?.role ? '' : 'checked'}> No
+                #{if errors.forKey('user.phone')}
+                <span class="alert alert-error">${errors.forKey('user.role')}</span>
+                #{/if}
+            </div>
+        </div>
+
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-success" id="saveuser">Save</button>
+            <a href="@{Application.index()}" class="btn">Cancel</a>
+        </div>
+    </fieldset>
+</form>
+#{/form}
+<div id="fb-root"></div>
+<script src="/public/javascripts/massagetoday-facebook.js"></script>

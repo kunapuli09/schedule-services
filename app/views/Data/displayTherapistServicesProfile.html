@@ -1,0 +1,262 @@
+#{extends 'main.html' /}
+#{set title:'Update Therapist Profile' /}
+#{form @Data.updateTherapistServices()}
+<input type="hidden" name="email" value="${session?.user}">
+<input type="hidden" name="userId" value="${session?.userId}">
+<form class="form-horizontal">
+    <fieldset class="control-group success">
+        <legend>Add a service</legend>
+        <div class="control-group">
+            <label class="control-label">Choose a work location</label>
+            #{if locations!=null && locations.size() > 0}
+            #{select 'service.locationId', value:service?.locationId}
+            #{list items:locations, as:'location'}
+            <option value="${location.id}">${location.name}</option>
+            #{/list}
+            #{/select}
+            #{/if}
+            #{else}
+            <a href="#addLocationDialog" data-toggle="modal" data-toggle="modal" title="Add your work location"
+               class="open-addLocationDialog btn btn-primary btn-large"
+                    >Add a work location</a>
+            #{/else}
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="serviceType">Massage Type</label>
+            #{select 'service.serviceType', value:service?.serviceType}
+            #{option "DEEP_TISSUE_MASSAGE"}Deep Tissue Massage#{/option}
+            #{option "SWEDISH_MASSAGE"}Swedish Massage#{/option}
+            #{/select}
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="durationType">Duration Of Massage</label>
+            #{select 'service.durationType', value:service?.durationType}
+            #{option "THIRTY_MIN"}30Min#{/option}
+            #{option "ONE_HOUR"}One Hour#{/option}
+            #{/select}
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="price">Price in $</label>
+            <div class="controls">
+                <input type="number" size="3" min="25.00" max="200.00" step="5" value="25" class="input-small" name="service.price" id="licence" value="${service?.price}">
+                #{if errors.forKey('service.price')}
+                <span class="alert alert-error">${errors.forKey('service.price')}</span>
+                #{/if}
+            </div>
+
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-info" id="addService">Add a service</button>
+            <a href="@{Application.index()}" class="btn">Cancel</a>
+        </div>
+    </fieldset>
+</form>
+#{/form}
+
+<!-- Display existing services -->
+#{if serviceValuePaginator !=null && serviceValuePaginator.size()  > 0}
+<legend>Existing Services</legend>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th class="locationName">Service Location</th>
+        <th class="locationAddress">Service Details</th>
+        <th></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+
+    #{paginate.list items:serviceValuePaginator, as:'s'}
+    #{if s !=null}
+    <tr class="service" draggable="true">
+        <td id="locationName">${s.getLocation().getName()}</td>
+        <td id="service"> ${s.getService()}, ${s.getDuration()} , ${s.price}</td>
+        <td>
+            <a href="@{Data.deleteService(s.id)}" class="btn btn-mini btn-danger"
+               data-confirm="Delete Service.  Are you sure?" data-method="delete"><i class="icon-remove icon-white"></i></a>
+        </td>
+    </tr>
+    #{/if}
+    #{/paginate.list}
+    #{paginate.controls items:serviceValuePaginator /}
+    #{paginate.summary items:serviceValuePaginator /}
+    </tbody>
+</table>
+#{/if}
+
+
+<!-- Add Location Dialog -->
+
+#{form @Data.addTherapistLocationForService(),id:'addLocationDialogForm'}
+<div class="modal hide" id="addLocationDialog">
+    <div class="modal-header">
+        <a href="" class="close" data-dismiss="modal">×</a>
+
+        <h3>Add a work location Ex: Hilton Spa</h3>
+
+    </div>
+    <div class="modal-body">
+        <input type="hidden" name="email" value="${session?.user}">
+        <fieldset class="control-group success">
+            <div class="control-group">
+                <label class="control-label" for="name">Your Work Location Name</label>
+                <span id="result"></span>
+                <div class="controls">
+                    <input type="text" class="input-xlarge" name="location.name" id="name" value="${workLocation?.name}" placeholder="Ex:Hilton Spa">
+                    #{if errors.forKey('workLocation.name')}
+                    <span class="alert alert-error">${errors.forKey('workLocation.name')}</span>
+                    #{/if}
+                </div>
+
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="address1">Address Line 1</label>
+
+                <div class="controls">
+                    <input type="text" class="input-xlarge" name="workLocation.address1" id="address1" value="${workLocation?.address1}">
+                    #{if errors.forKey('workLocation.address1')}
+                    <span class="alert alert-error">${errors.forKey('workLocation.address1')}</span>
+                    #{/if}
+                </div>
+
+            </div>
+            <!--<div class="control-group">
+                <label class="control-label" for="address2">Address Line 2</label>
+
+                <div class="controls">
+                    <input type="text" class="input-xlarge" name="workLocation.address2" id="address2" value="${workLocation?.address2}">
+                    #{if errors.forKey('workLocation.address2')}
+                    <span class="alert alert-error">${errors.forKey('workLocation.address2')}</span>
+                    #{/if}
+                </div>
+
+            </div>-->
+
+            <div class="control-group">
+                <label class="control-label" for="city">City</label>
+
+                <div class="controls">
+                    <input type="text" class="input-xlarge" id="city" name="workLocation.city" value="${workLocation?.city}">
+                    #{if errors.forKey('workLocation.city')}
+                    <span class="alert alert-error">${errors.forKey('workLocation.city')}</span>
+                    #{/if}
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" id="state" name="workLocation.state">State</label>
+
+                <div class="controls">
+                    #{select 'workLocation.state', value:workLocation?.state, id:'state' }
+                    #{option "AL"}Alabama#{/option}
+                    #{option "AK"}Alaska#{/option}
+                    #{option "AZ"}Arizona#{/option}
+                    #{option "AR"}Arkansas#{/option}
+                    #{option "CA"}California#{/option}
+                    #{option "CO"}Colorado#{/option}
+                    #{option "CT"}Connecticut#{/option}
+                    #{option "DE"}Delaware#{/option}
+                    #{option "DC"}Dist of Columbia#{/option}
+                    #{option "FL"}Florida#{/option}
+                    #{option "GA"}Georgia#{/option}
+                    #{option "HI"}Hawaii#{/option}
+                    #{option "ID"}Idaho#{/option}
+                    #{option "IL"}Illinois#{/option}
+                    #{option "IN"}Indiana#{/option}
+                    #{option "IA"}Iowa#{/option}
+                    #{option "KS"}Kansas#{/option}
+                    #{option "KY"}Kentucky#{/option}
+                    #{option "LA"}Louisiana#{/option}
+                    #{option "ME"}Maine#{/option}
+                    #{option "MD"}Maryland#{/option}
+                    #{option "MA"}Massachusetts#{/option}
+                    #{option "MI"}Michigan#{/option}
+                    #{option "MN"}Minnesota#{/option}
+                    #{option "MS"}Mississippi#{/option}
+                    #{option "MO"}Missouri#{/option}
+                    #{option "MT"}Montana#{/option}
+                    #{option "NE"}Nebraska#{/option}
+                    #{option "NV"}Nevada#{/option}
+                    #{option "NH"}New Hampshire#{/option}
+                    #{option "NJ"}New Jersey#{/option}
+                    #{option "NM"}New Mexico#{/option}
+                    #{option "NY"}New York#{/option}
+                    #{option "NC"}North Carolina#{/option}
+                    #{option "ND"}North Dakota#{/option}
+                    #{option "OH"}Ohio#{/option}
+                    #{option "OK"}Oklahoma#{/option}
+                    #{option "OR"}Oregon#{/option}
+                    #{option "PA"}Pennsylvania#{/option}
+                    #{option "RI"}Rhode Island#{/option}
+                    #{option "SC"}South Carolina#{/option}
+                    #{option "SD"}South Dakota#{/option}
+                    #{option "TN"}Tennessee#{/option}
+                    #{option "TX"}Texas#{/option}
+                    #{option "UT"}Utah#{/option}
+                    #{option "VT"}Vermont#{/option}
+                    #{option "VA"}Virginia#{/option}
+                    #{option "WA"}Washington#{/option}
+                    #{option "WV"}West Virginia#{/option}
+                    #{option "WI"}Wisconsin#{/option}
+                    #{option "WY"}Wyoming#{/option}
+                    #{/select}
+                    #{if errors.forKey('workLocation.state')}
+                    <span class="alert alert-error">${errors.forKey('workLocation.state')}</span>
+                    #{/if}
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="zip">Zip</label>
+
+                <div class="controls">
+                    <input type="number" size="5" class="input-small" id="zip" name="workLocation.zip"
+                           value="${workLocation?.zip}">
+                    #{if errors.forKey('workLocation.zip')}
+                    <span class="alert alert-error">${errors.forKey('workLocation.zip')}</span>
+                    #{/if}
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-info" id="addTherapistLocation">Add Location</button>
+                <a href="" class="btn" data-dismiss="modal">Cancel</a>
+            </div>
+        </fieldset>
+    </div>
+    <div class="modal-footer">
+        <a href="" class="btn btn-primary" data-dismiss="modal">Dismiss</a>
+    </div>
+</div>
+#{/form}
+<script src="/public/javascripts/jquery.js"></script>
+<script src="/public/javascripts/jquery.raty.min.js"></script>
+<script>
+    $("#addLocationDialogForm").submit(function(event) {
+    /* stop form from submitting normally */
+    event.preventDefault();
+
+    /* get some values from elements on the page: */
+    var $form = $( this ),
+    nameVal= $form.find( 'input[id="name"]' ).val();
+    address1Val= $form.find( 'input[id="address1"]' ).val();
+    cityVal= $form.find( 'input[id="city"]' ).val();
+    zipVal= $form.find( 'input[id="zip"]' ).val();
+    url = '@{Data.isValidAddress()}';
+    /* Send the data using post */
+    var posting = $.post( url, { name: nameVal } );
+
+    /* Put the results in a div */
+    posting.done(function( data ) {
+    if(data){
+    $( "#result" ).html(data).addClass('alert alert-danger');
+    }else{
+    $('#addLocationDialogForm').submit();
+    }
+
+    });
+    });
+</script>

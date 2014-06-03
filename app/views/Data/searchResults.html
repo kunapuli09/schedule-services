@@ -1,0 +1,52 @@
+#{extends 'main.html' /}
+#{set title:'searchResults' /}
+<div class="form-actions">
+    <a href="@{Application.index()}" class="btn btn-info btn-large" id="findNew">Back to search</a>
+</div>
+<legend>Search Results</legend>
+
+#{if profileValuePaginator !=null && profileValuePaginator.size()  > 0}
+<div class="row-fluid">
+    <div class="span2"><h3></h3></div>
+    <div class="span2"><h3>Therapist Name</h3></div>
+    <div class="span2"><h3>Licence</h3></div>
+    <div class="span2"><h3></h3></div>
+</div>
+
+
+#{paginate.list items:profileValuePaginator, as:'profile'}
+
+
+<div class="row-fluid">
+    <div id="photo" class="span2">
+        <img height="42" width="42" src="${profile.photo}" alt="image not found"/>
+    </div>
+
+    <div id="name" class="span2">
+        <p>
+            ${profile.name}
+        </p>
+    </div>
+
+    <div id="postReview" class="span2">
+        <p>
+            ${profile.licence}
+        </p>
+    </div>
+
+    <div id="book" class="span2">
+        <p>
+            <a class="btn btn-large btn-success" href="@{Pay.checkout()}"
+               style="text-decoration:none">Book In</a>
+        </p>
+    </div>
+</div>
+
+#{/paginate.list}
+#{paginate.controls items:profileValuePaginator /}
+#{paginate.summary items:profileValuePaginator /}
+#{/if}
+<!--#{else}-->
+<!--<div class="alert alert-info">Services not available at this time</div>-->
+<!--#{/else}-->
+

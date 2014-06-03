@@ -1,0 +1,21 @@
+policygen-therapists-201308081708
+
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "s3:GetObject",
+        "s3:PutObject"
+      ],
+      "Sid": "Stmt1376003029000",
+      "Resource": [
+        "arn:aws:s3:::therapist-profiles*"
+      ],
+      "Effect": "Allow"
+    }
+  ]
+}
+
+
+filepicker.ip API Key = AAI1OgUPsSyidzeRvUqwqz

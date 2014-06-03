@@ -1,0 +1,79 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+#not used
+GET     /                                       Application.index
+
+# User Registration page
+GET     /register                               Application.register
+
+# User Login page
+GET     /displayLogin                           Application.displayLogin
+
+# User Facebook Channel page
+GET     /channel                                Application.channel
+
+# User Forgot Password page
+GET     /forgotPassword                         Application.forgotPassword
+
+#Backend Call to Send Password Reset Email
+GET     /passwordReset                          Application.passwordReset
+
+#Backend Call to Reset Password by clicking link in email
+POST    /passwordResetFinish                    Application.passwordResetFinish
+
+#Backend login call
+POST    /login                                  Application.login
+
+#Backend logout call
+GET     /logout                                 Application.logout
+
+#Verify Email doesn't exist for new user sign up through modal dialog
+POST     /isValidUser                           Application.isValidUser
+
+POST    /signUpThroughFacebook                  Application.signUpThroughFacebook
+
+#Verify Email doesn't exist for existing user through login modal dialog
+POST     /isUserAuthenticated                   Application.isUserAuthenticated
+
+# Ignore favicon requests
+GET     /favicon.ico                            404
+
+# Map static resources from the /app/public folder to the /public path
+GET     /public/                                staticDir:public
+
+# Catch all
+*       /{controller}/{action}                  {controller}.{action}
+
+# User Registration page
+# User Login page
+GET     /displayTherapistProfile                Data.displayTherapistProfile
+
+GET     /displayTherapistLocationProfile        Data.displayTherapistLocationProfile
+
+GET     /displayTherapistScheduleProfile        Data.displayTherapistScheduleProfile
+
+GET     /displayTherapistServiceProfile        Data.displayTherapistServicesProfile
+
+GET     /updateTherapist                        Data.updateTherapist
+
+POST     /uploadPhoto                           Data.uploadPhoto
+
+POST     /isValidAddress                        Data.isValidAddress
+
+POST     /signUpThroughFacebook                 Application.signUpThroughFacebook
+
+GET /addLocation                                Data.addLocation
+
+#GET     /displayPhotoUpload                     Data.displayPhotoUpload
+
+GET     /getPhoto                               Data.getPhoto
+
+GET     /mobileSearch                           Data.mobileSearch
+
+GET /checkout                                   Pay.checkout
+
+
+
+

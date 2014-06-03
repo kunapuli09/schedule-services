@@ -1,0 +1,9 @@
+# Application dependencies
+
+require:
+    - play
+    - play -> cloudbees 0.2.2
+    - play -> morphia 1.2.12
+    - play -> paginate 0.14
+    - net.sf.flexjson -> flexjson 2.1
+    - com.stripe -> stripe-java 1.3.1

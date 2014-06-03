@@ -1,0 +1,58 @@
+#{extends 'main.html' /}
+#{set title:'Stripe Sample Form' /}
+<h1>Make Your Payment</h1>
+#{form @Pay.checkout(), id:'checkout'}
+<input type="hidden" name="email" value="${session?.user}">
+<input type="hidden" name="userId" value="${session?.userId}">
+<form class="form-horizontal">
+    <fieldset class="control-group success">
+        <legend>Pay with credit card</legend>
+        <div id="payment-errors"></div>
+        <div class="control-group">
+            <label class="control-label">Name</label>
+
+            <div class="controls">
+                <input type="text" class="input-xlarge" value="" autocomplete="off">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Card Number</label>
+
+            <div class="controls">
+                <input type="text" class="card-number input-medium" size="16" value="" autocomplete="off"> *
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" >Cvc</label>
+            <div class="controls">
+                <input type="text" class="card-cvc input-mini" size="16" value="" autocomplete="off"> *
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Expiration (MM / YYYY)</label>
+            <div class="controls">
+                <input type="text" class="card-expiry-month input-mini" size="2">
+                <span> / </span>
+                <input type="text" class="card-expiry-year input-mini" size="4">
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-info" id="submitBtn">Pay With Card</button>
+            <a href="@{Application.index()}" class="btn">Cancel</a>
+        </div>
+    </fieldset>
+</form>
+#{/form}
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.8.1/jquery.validate.min.js"></script>
+<script type="text/javascript" src="https://js.stripe.com/v1/"></script>
+<script type="text/javascript">
+    Stripe.setPublishableKey('pk_test_YC093riNe5h9y7yjaJ8guGbM');
+</script>
+<script>
+    if (window.Stripe) $("#checkout").show()</script>
+<noscript><p>JavaScript is required for the registration form.</p></noscript>
+<script src="/public/javascripts/massagetoday-checkout.js"></script>
+<script src="/public/javascripts/jquery.js"></script>
+<script src="/public/javascripts/jquery.raty.min.js"></script>
+

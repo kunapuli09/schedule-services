@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>massageToday</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="/public/stylesheets/bootstrap.css" rel="stylesheet">
+    <link href="/public/stylesheets/font-awesome.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+        }
+        .sidebar-nav {
+        padding: 9px 0;
+        }
+        .crap {
+        padding: 9px 0;
+        }
+    </style>
+    <style type="text/css">
+        label.error { float: none; color: red; padding-left: .5em; vertical-align: top; }
+        p { clear: both; }
+        .submit { margin-left: 12em; }
+    </style>
+    <link href="/public/stylesheets/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="../assets/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
+</head>
+
+<body>
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="brand" href="@{Application.index()}">&nbsp; MASSAGETODAY</a>
+
+            #{if session.user == null}
+            <div id="nav-login" class="btn-group-horizontal pull-right">
+                <a class="btn btn-success" href="@{Application.register()}">SignUp</a>
+                <a class="btn btn-info" href="@{Application.displayLogin()}"><i class="icon-user icon-white"></i>&nbsp;Login</a>
+            </div>
+            #{/if}
+
+            #{if session.user != null}
+            <div id="nav-logout" class="btn-group pull-right">
+                <div class="btn-group">
+                    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="icon-user"></i>${session?.user}
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="@{Application.register()}"><i class="icon-edit"></i>Account Settings</a></i></li>
+                        <li class="divider"></li>
+                        <li><a href="@{Application.logout()}"><i class="icon-eject"></i> Sign out</a></li>
+                        <li class="divider"></li>
+                    </ul>
+                </div>
+
+            </div>
+            #{/if}
+            <div class="nav-collapse collapse">
+                <ul class="nav">
+                    <!--<li class="active"><a href="#"><i class="icon-star"></i>Write a review</a>
+                    </li>-->
+                    #{if session.user != null && session.role == 'THERAPIST'}
+                    <li class="divider"></li>
+                    <li><a href="@{Application.displayTherapistProfile(session.user, session.userId)}"><i class="icon-plus-sign"></i>Profile/Bio</a></li>
+                    <li><a href="@{Data.displayTherapistSchedulesByUserId(session.userId)}"><i class="icon-plus-sign"></i>Schedules</a></li>
+                    <li><a href="@{Data.displayTherapistServicesByUserId(session.userId)}"><i class="icon-plus-sign"></i>Services</a></li>
+                    <li><a href="@{Data.displayTherapistLocationsByUserId(session.userId)}"><i class="icon-plus-sign"></i>Locations</a></li>
+                    #{/if}
+                </ul>
+
+            </div>
+
+            <!--/.nav-collapse -->
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    #{if flash.error}
+        
+    <div class="alert alert-error">
+                <a class="close" data-dismiss="alert">×</a>
+                <strong>Error!</strong>${flash.error}
+            
+    </div>
+        #{/if}
+
+    #{doLayout /}
+
+    <hr>
+
+    <footer>
+        <p>&copy; StarpathIT 2013</p>
+    </footer>
+
+</div>
+<!-- /container -->
+
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="/public/javascripts/jquery.js"></script>
+<script src="/public/javascripts/bootstrap-transition.js"></script>
+<script src="/public/javascripts/bootstrap-alert.js"></script>
+<script src="/public/javascripts/bootstrap-modal.js"></script>
+<script src="/public/javascripts/bootstrap-dropdown.js"></script>
+<script src="/public/javascripts/bootstrap-scrollspy.js"></script>
+<script src="/public/javascripts/bootstrap-tab.js"></script>
+<script src="/public/javascripts/bootstrap-tooltip.js"></script>
+<script src="/public/javascripts/bootstrap-popover.js"></script>
+<script src="/public/javascripts/bootstrap-button.js"></script>
+<script src="/public/javascripts/bootstrap-collapse.js"></script>
+<script src="/public/javascripts/bootstrap-carousel.js"></script>
+<script src="/public/javascripts/bootstrap-typeahead.js"></script>
+<script src="/public/javascripts/holder.js"></script>
+<script src="/public/javascripts/jquery.raty.js"></script>
+<script src="/public/javascripts/jquery.raty.min.js"></script>
+<script src="/public/javascripts/bootstrap-typeahead.js"></script>
+<!--<script src="http://code.jquery.com/jquery-latest.js"></script>-->
+<script type="text/javascript" src="http://jzaefferer.github.com/jquery-validation/jquery.validate.js"></script>
+<script src="/public/javascripts/smart-subscribe.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script>
+</body>
+</html>
