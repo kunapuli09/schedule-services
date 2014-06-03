@@ -1,4 +1,4 @@
-sage-schedule-services
+schedule-services for massage therapists
 =========================
 
 Location based service to manage massage therapists, profile pictures, work places, schedule hours, schedule locations, reviews..etc
